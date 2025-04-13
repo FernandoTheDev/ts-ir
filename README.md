@@ -99,3 +99,27 @@ Output:
 ```
 10 + 20 = 30
 ```
+
+## Project Status
+
+⚠️ **Development Status**: This library is currently in early development and is considered **experimental**. Bugs and incomplete features are expected.
+
+**DO NOT USE IN PRODUCTION ENVIRONMENTS.**
+
+The API is unstable and subject to change without notice as we continue to refine the implementation.
+
+## Contributing
+
+Contributions are welcome! Feel free to:
+- Submit bug reports
+- Propose new features
+- Create pull requests
+- Improve documentation
+
+## License
+
+[MIT License](LICENSE)
+
+## Author
+
+Created and maintained by Fernando - [@fernandothedev](https://github.com/fernandothedev)
