@@ -3,7 +3,7 @@ import { LLVMFunction } from "../src/core/LLVMFunction.ts";
 import { LLVMBasicBlock as _LLVMBasicBlock } from "../src/core/LLVMBasicBlock.ts";
 import { createStringGlobal } from "../src/utils/Helpers.ts";
 
-const mod = new LLVMModule("MeuModulo");
+const mod = new LLVMModule("Example");
 
 mod.addExternal("declare i32 @printf(i8*, ...)");
 
