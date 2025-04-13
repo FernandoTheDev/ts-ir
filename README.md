@@ -1,22 +1,22 @@
 # ts-ir
 
 <p align="center">
-    <img src="assets/img.png" width="500px" heigth="500px"/>
+  <img src="assets/img.png" width="500" alt="ts-ir logo"/>
 </p>
 
-LLVM IR code generator completely from scratch, no need for external dependencies, use of ffi and other things.
+A lightweight LLVM IR code generator built completely from scratch, with no external dependencies, FFI, or third-party libraries.
 
 ## Examples
 
-### 1.
+### Example 1: Basic Addition
 
-Run the following commands
+Generate IR code:
 
 ```bash
 deno run examples/example.ts >> test.ll
 ```
 
-The IR generated
+Generated LLVM IR:
 
 ```llvm
 declare i32 @printf(i8*, ...)
@@ -38,27 +38,28 @@ entry:
 }
 ```
 
-Compile and run
+Compile and run:
 
 ```bash
-clang test.ll -o test; ./test
+clang test.ll -o test
+./test
 ```
 
-Output
+Output:
 
-```bash
+```
 Result: 30
 ```
 
-### 2.
+### Example 2: Function Call
 
-Run the following commands
+Generate IR code:
 
 ```bash
 deno run examples/sum.ts >> sum.ll
 ```
 
-The IR generated
+Generated LLVM IR:
 
 ```llvm
 declare i32 @printf(i8*, ...)
@@ -86,14 +87,15 @@ entry:
 }
 ```
 
-Compile and run
+Compile and run:
 
 ```bash
-clang sum.ll -o sum; ./sum
+clang sum.ll -o sum
+./sum
 ```
 
-Output
+Output:
 
-```bash
-10 + 20 =30
+```
+10 + 20 = 30
 ```
