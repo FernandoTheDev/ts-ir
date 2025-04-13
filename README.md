@@ -1,5 +1,9 @@
 # ts-ir
 
+<p align="center">
+    <img src="assets/img.png" width="500px" heigth="500px"/>
+</p>
+
 LLVM IR code generator completely from scratch, no need for external dependencies, use of ffi and other things.
 
 ## Example
