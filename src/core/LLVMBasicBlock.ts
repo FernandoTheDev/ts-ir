@@ -160,4 +160,53 @@ export class LLVMBasicBlock {
   public toString(): string {
     return `${this.label}:\n${this.instructions.join("\n")}`;
   }
+
+  // Comparação: retorna uma flag de comparação (i1)
+  public icmpInst(
+    condition:
+      | "eq"
+      | "ne"
+      | "ugt"
+      | "uge"
+      | "ult"
+      | "ule"
+      | "sgt"
+      | "sge"
+      | "slt"
+      | "sle",
+    op1: IRValue,
+    op2: IRValue,
+  ): IRValue {
+    if (op1.type !== op2.type) {
+      throw new Error(
+        `Tipos incompatíveis para comparação: ${op1.type} vs ${op2.type}`,
+      );
+    }
+    const temp = this.nextTemp();
+    this.add(
+      `${temp} = icmp ${condition} ${op1.type} ${op1.value}, ${op2.value}`,
+    );
+    return { value: temp, type: "i1" };
+  }
+
+  // Instrução condicional (branch)
+  public condBrInst(
+    condition: IRValue,
+    trueLabel: string,
+    falseLabel: string,
+  ): void {
+    if (condition.type !== "i1") {
+      throw new Error(
+        `Condicional precisa ser do tipo i1, mas recebeu ${condition.type}`,
+      );
+    }
+    this.add(
+      `br i1 ${condition.value}, label %${trueLabel}, label %${falseLabel}`,
+    );
+  }
+
+  // Instrução de pulo incondicional
+  public brInst(label: string): void {
+    this.add(`br label %${label}`);
+  }
 }

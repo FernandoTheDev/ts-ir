@@ -100,6 +100,74 @@ Output:
 10 + 20 = 30
 ```
 
+### Example 3: Greater than ten
+
+Generate IR code:
+
+```bash
+deno run examples/greatherThanTen.ts >> ten.ll
+```
+
+Generated LLVM IR:
+
+```llvm
+declare i32 @printf(i8*, ...)
+declare i32 @scanf(i8*, ...)
+
+@.str0 = private constant [17 x i8] c"Enter a number: \00"
+@.str1 = private constant [3 x i8] c"%d\00"
+@.str2 = private constant [20 x i8] c"It's less than 10\5Cn\00"
+@.str3 = private constant [19 x i8] c"It's equal to 10\5Cn\00"
+@.str4 = private constant [23 x i8] c"It's greater than 10\5Cn\00"
+
+define i32 @main() {
+entry:
+  %t0 = alloca i32, align 4
+  %t1 = getelementptr inbounds [17 x i8], [17 x i8]* @.str0, i32 0, i32 0
+  %t2 = call i32 @printf(i8* %t1)
+  %t3 = getelementptr inbounds [3 x i8], [3 x i8]* @.str1, i32 0, i32 0
+  %t4 = call i32 @scanf(i8* %t3, i32* %t0)
+  %t5 = load i32, i32* %t0, align 4
+  %t6 = icmp slt i32 %t5, 10
+  br i1 %t6, label %if_less, label %else_if_equal
+if_less:
+  %t7 = getelementptr inbounds [20 x i8], [20 x i8]* @.str2, i32 0, i32 0
+  %t8 = call i32 @printf(i8* %t7)
+  br label %end
+else_if_equal:
+  %t9 = icmp eq i32 %t5, 10
+  br i1 %t9, label %equal, label %else_greater
+equal:
+  %t10 = getelementptr inbounds [19 x i8], [19 x i8]* @.str3, i32 0, i32 0
+  %t11 = call i32 @printf(i8* %t10)
+  br label %end
+else_greater:
+  %t12 = getelementptr inbounds [23 x i8], [23 x i8]* @.str4, i32 0, i32 0
+  %t13 = call i32 @printf(i8* %t12)
+  br label %end
+end:
+  ret i32 0
+}
+```
+
+Compile and run:
+
+```bash
+clang ten.ll -o ten
+
+./ten
+Enter a number: 10
+It's equal to 10
+
+./ten
+Enter a number: 100
+It's greater than 10
+
+./ten
+Enter a number: 1
+It's less than 10
+```
+
 ## Project Status
 
 ⚠️ **Development Status**: This library is currently in early development and is considered **experimental**. Bugs and incomplete features are expected.
