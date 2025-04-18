@@ -168,6 +168,64 @@ Enter a number: 1
 It's less than 10
 ```
 
+### Example 4: For Loop
+
+Generate IR code:
+
+```bash
+deno run examples/for.ts >> for.ll
+```
+
+Generated LLVM IR:
+
+```llvm
+declare i32 @printf(i8*, ...)
+
+@.str0 = private constant [16 x i8] c"Value of i: %d
+\00"
+
+define i32 @main() {
+entry:
+  %t0 = alloca i32, align 4
+  store i32 0, i32* %t0, align 4
+  br label %for.cond
+for.cond:
+  %t1 = load i32, i32* %t0, align 4
+  %t2 = icmp slt i32 %t1, 5
+  br i1 %t2, label %for.body, label %for.end
+for.body:
+  %t3 = load i32, i32* %t0, align 4
+  %t4 = getelementptr inbounds [16 x i8], [16 x i8]* @.str0, i32 0, i32 0
+  %t5 = call i32 @printf(i8* %t4, i32 %t3)
+  br label %for.inc
+for.inc:
+  %t6 = load i32, i32* %t0, align 4
+  %t7 = add i32 %t6, 1
+  store i32 %t7, i32* %t0, align 4
+  br label %for.cond
+for.end:
+  ret i32 0
+}
+```
+
+Compile and run:
+
+```bash
+clang for.ll -o for
+./for
+```
+
+Output:
+
+```
+./for
+Value of i: 0
+Value of i: 1
+Value of i: 2
+Value of i: 3
+Value of i: 4
+```
+
 ## Project Status
 
 ⚠️ **Development Status**: This library is currently in early development and is considered **experimental**. Bugs and incomplete features are expected.
